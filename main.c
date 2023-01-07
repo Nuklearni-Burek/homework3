@@ -1,57 +1,77 @@
-#include<stdio.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#include <string.h>
 
-int b=0;   //global variables, b represents the floor you are on, a represents floor you want to go on
-int a;
+void try(char *str,char *str1){   //parameter with pointers
+int life=10;   //ammount of tries
+printf("%s\n",str);   //+++++
+char a;    //pivot
 
-
-void elevator(int g){   //void function
-if(a==-1||a==-2||a==-3||a==1||a==2||a==3||a==4||a==5||a==0){  //this if statement checks if you've inserted a correct input
-
-if(g>=b){  // this is if you want to go up, or stay at the same level
-for(int i=b;i<=g;i++){
-printf("Right now floor: %d\n",i);
-b=i;}//for loop
+for(int i=1;i<=life;i++){
+printf("Tries left %d\n",(life-i+1));
+int counter1=0;
+if(strcmp(str,str1)==0){   //checks if you've completed the word
+printf("You did it!\n");
+break;
 }
-
-else{  //this is if you want to go down
-for(int i=b;i>=g;i--){
-printf("Right now floor: %d\n",i);
-b=i;}
+else{      //This is if you run out of tries
+if(i==life){
+printf("GAME OVER\n");
+printf("The word you didn't guess: %s",str1);
 }
-
-char ans;
-printf("\nDo you want to continue?(y for yes,n for no)\n");   //asking you if you want to continue using elevator
-scanf(" %c",&ans);
+else{
+printf("TRY!\n");
+scanf("%c",&a);
 getchar();
-if(ans=='y'){    //this is for yes
-printf("Select the floor: \n");
-scanf("%d",&a);
-elevator(a);
+
+for(int j=0;j<strlen(str1);j++){  //checks if a is in the string
+if(a==str1[j]){
+str[j]=str1[j];
+counter1++;
 }
 
-else if(ans=='n'){    //this is for no(end of the "simulation")
-printf("Thank you for your ride.\n");
-printf("\n-------------------------\n");
+}//for j
+
+}//end of second else
+printf("%s\n",str);
+} //end of first else
+
+if(counter1!=0){
+i--;}
+
+}//for i
+} //end of try function
+
+void guess(char **sstring,int num){
+
+int life=10;
+int n=strlen(sstring[num]);
+//printf("%d %s\n",n,sstring[num]);
+char String2[n];
+char String4[n];
+strcpy(String4,sstring[num]);
+
+for(int i=0;i<n;i++){
+String2[i]='*';
 }
-}
 
-else{                    //this is for inserting wrong floor number
-printf("Wrong input,please select again!\n");
-scanf("%d",&a);
-elevator(a);
-}
-
-
-}//end of void function elevator
+//printf("%s\n",String2);
+char String3[n];
+strcpy(String3,String2);
+printf("Guess the letter in the word!\n");
+try(String3,String4);
 
 
+}                           //end of function
 
 
-int main(){  //main function
-printf("\n-------------------------\n");
-printf("Right now you are on the ground floor\n");
-printf("Select the floor 1,2,3,4 or 5, or go to basement -1,-2 or -3\n");
-scanf("%d",&a);
-elevator(a);
-return 0;
+int main() {      //main function
+srand(time(NULL));    //refreshes the program every time you run it, so you get random variables
+int n=rand()%4;
+char *String[]={"house","garden","tops","bottoms","crime","what"};    //put here words that you want to guess
+printf("\n--------------------\n");
+guess(String,n);
+printf("\n--------------------\n");
+return 1;
 }
